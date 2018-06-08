@@ -1,0 +1,3 @@
+/home/sxl/caffe-ssd/build/examples/ssd/ssd_detect.bin /home/sxl/caffe-ssd/models/4C/SSD_750x500/deploy.prototxt /home/sxl/caffe-ssd/models/4C/SSD_750x500/VGG_VOC0712_SSD_750x500_iter_300000.caffemodel /home/sxl/caffe-ssd/data/dianwang/gailujing/test_jpg.txt --out_file /home/sxl/caffe-ssd/data/dianwang/gailujing/output_old.txt --confidence_threshold 0.3
+
+/home/sxl/caffe-ssd/build/examples/ssd/ssd_detect.bin /home/sxl/caffe-ssd/models/4C_new/deploy.prototxt /home/sxl/caffe-ssd/models/4C_new/snapshot/VGG_VOC0712_SSD_750x500_iter_300000.caffemodel /home/sxl/caffe-ssd/data/dianwang/gailujing/test_jpg.txt --out_file /home/sxl/caffe-ssd/data/dianwang/gailujing/output_new.txt --confidence_threshold 0.3

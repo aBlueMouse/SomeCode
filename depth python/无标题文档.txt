@@ -1,0 +1,7 @@
+sh examples/FSRCNN_vgg16/FSRCNN/create_lmdb.sh
+
+./build/tools/caffe train --solver examples/lanhao/255_bi_with10y_solver.prototxt
+
+./build/tools/caffe train --solver examples/lanhao/255_bi_with10y_solver.prototxt 2>&1| tee examples/lanhao/log/lanhao2/lanhao2.log
+
+./build/tools/caffe train --solver models/4C/SSD_750x500/solver.prototxt --snapshot=models/4C/SSD_750x500/VGG_VOC0712_SSD_750x500_iter_60000.solverstate

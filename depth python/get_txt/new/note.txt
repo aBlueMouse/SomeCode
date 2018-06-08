@@ -1,0 +1,7 @@
+将label.txt 和 data.txt 文件每一行合在一个文件，用@隔开
+paste -d@ label.txt data2.txt > test.txt
+
+将 test.txt按行打乱，每行内容则保持不变，命令：
+awk 'BEGIN{ 100000*srand();}{ printf "%s %s\n", rand(), $0}'   test.txt |sort -k1n | awk '{gsub($1FS,""); print $0}' > test2.txt
+
+python test_1.py

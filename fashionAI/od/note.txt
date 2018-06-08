@@ -1,0 +1,19 @@
+python create_pascal_tf_record.py --data_dir=/home/lanhao/od2/blouse/blouse/ \
+     --set=train --output_path='tfrecords/pascal_train.record' \
+     --label_map_path=blouse_label_map.pbtxt
+     
+python create_pascal_tf_record.py --data_dir=/home/lanhao/od2/blouse/blouse/ \
+     --set=val --output_path='tfrecords/pascal_val.record' \
+     --label_map_path=blouse_label_map.pbtxt
+     
+CUDA_VISIBLE_DEVICES=1 python train.py --train_dir='snapshot/' --pipeline_config_path='faster_rcnn_nas_coco.config'
+
+CUDA_VISIBLE_DEVICES=$GPU_ID python trainval_net.py \
+                    --dataset pascal_voc --net res101 \
+                    --bs 8 --nw 1 \
+                    --lr $LEARNING_RATE --lr_decay_step $DECAY_STEP \
+                    --cuda
+                    
+export LD_LIBRARY_PATH=/opt/glibc-2.14/lib
+
+export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim

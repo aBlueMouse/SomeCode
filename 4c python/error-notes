@@ -1,0 +1,89 @@
+2016.9.14
+1、caffe编译错误：
+sxl@sxl-All-Series:~/caffe-master$ make all
+
+PROTOC src/caffe/proto/caffe.proto
+protoc: error while loading shared libraries: libprotoc.so.10: cannot open shared object file: No such file or directory
+make: *** [.build_release/src/caffe/proto/caffe.pb.h] 错误 12
+
+分析及解决方案：
+运行protoc，提示找不到两个库：libprotobuf.so，libprotoc.so。原因是因为这两个库安装在了/usr /local/lib下，但是ubunut的lib路径为/usr/lib。有些系统以usr/lib为库文件目录，有些系统以usr/local/lib为库目录
+重新添加库路径
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/local/lib
+export LD_LIBRARY_PATH
+
+参考博客：http://blog.csdn.net/sky_cn1986/article/details/6092479
+
+2、？？？编译MATLAB，显示gcc版本不支持警告。不知是否影响后续使用。？？？
+
+3、caffe测试python时出错
+  在caffe\python目录下进入python(终端切换到这个目录，输入python)
+  输入import caffe
+报错：Can't import name symbol_database
+
+分析及解决方案：
+定位错误文件caffe_pb2.py，caffe更新了它的protobuf，去github下载最新的protobuf，重新编译即可。
+最新protobuf：https://github.com/google/protobuf
+cd 到protobuf/python 文件夹下，依次执行，下面三个命令：
+python setup.py build
+python setup.py test
+pyton setup.py install
+
+参考自客http://blog.csdn.net/sunshine_in_moon/article/details/51023894
+
+4、cuDNN出现版本不匹配，在工程make的时候，会报如下错误（以安装v4版本，编译v3版本的程序为例）：
+
+错误信息：...
+
+	NVCC src/caffe/layers/deconv_layer.cu
+	NVCC src/caffe/layers/cudnn_conv_layer.cu
+	src/caffe/layers/cudnn_conv_layer.cu(81): error: argument of type "cudnnAddMode_t" is incompatible with parameter of type "const void *"
+		  detected during instantiation of "void caffe::CuDNNConvolutionLayer<Dtype>::Forward_gpu(const std::vector<caffe::Blob<Dtype> *, std::allocator<caffe::Blob<Dtype> *>> &, const std::vector<caffe::Blob<Dtype> *, std::allocator<caffe::Blob<Dtype> *>> &) [with Dtype=float]" 
+	(157): here
+
+	...
+
+	20 errors detected in the compilation of "/tmp/tmpxft_00002703_00000000-16_cudnn_conv_layer.compute_50.cpp1.ii".
+	make: *** [.build_release/cuda/src/caffe/layers/cudnn_conv_layer.o] Error 1
+	make: *** Waiting for unfinished jobs....
+
+解决方案：
+	下载v3版本，解压后，在终端进入所在文件夹下（这里仍然以v3版本为例）：
+	$ cd lib64/
+	$ sudo cp lib* /usr/local/cuda/lib64/
+	$ cd ../include/
+	$ sudo cp cudnn.h /usr/local/cuda/include/
+	$ cd /usr/local/cuda/lib64/
+	$ sudo rm -r libcudnn.so libcudnn.so.7.0
+	$ sudo ln -sf libcudnn.so.7.0.64 libcudnn.so.7.0
+	$ sudo ln -sf libcudnn.so.7.0 libcudnn.so
+	$ sudo ldconfig
+
+
+5、添加PYTHON路径
+export PYTHONPATH=$PYTHONPATH:/home/sxl/caffe-ssd/python
+source ~/.bashrc
+
+6、ssd项目代码，runtest时错误
+         MultiBoxLossLayerTest/2.TestConfGradient, where TypeParam = caffe::GPUDevice
+
+解决方案：
+添加环境变量
+export PATH=/usr/local/cuda-7.5/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-7.5/lib64:$LD_LIBRARY_PATH
+博客：http://blog.sina.com.cn/s/blog_a5fdbf010102w7f6.html
+
+7、caffe.pb.h丢失问题
+解决方案：
+用protoc从caffe/src/caffe/proto/caffe.proto生成caffe.pb.h和caffe.pb.cc
+wuliwei@wulw:~/caffe/src/caffe/proto$ protoc --cpp_out=/home/wuliwei/caffe/include/caffe/ caffe.proto
+
+8、错误：
+	build_release/lib/libcaffe.so: undefined reference to「boost::re_detail::raise_runtime_error(std::runtime_error const&)
+	build_release/lib/libcaffe.so: undefined reference to「boost::re_detail::put_mem_block(void*)
+	......
+解决方案：
+add boost_regex to LIBRARIES in Makefile：LIBRARIES += boost_thread stdc++ boost_regex
+参考：https://github.com/rbgirshick/fast-rcnn/issues/52
+
+9、

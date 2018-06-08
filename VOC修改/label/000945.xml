@@ -1,0 +1,26 @@
+<annotation>
+	<folder>6_22</folder>
+	<filename>000945.jpg</filename>
+	<path>C:\Users\jy\Desktop\windows_v1.3.3\6_22\000945.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>6600</width>
+		<height>4400</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>2</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>2818</xmin>
+			<ymin>717</ymin>
+			<xmax>4004</xmax>
+			<ymax>1625</ymax>
+		</bndbox>
+	</object>
+</annotation>
