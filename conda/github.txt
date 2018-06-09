@@ -1,0 +1,18 @@
+git config --global user.name "aBlueMouse"
+git config --global user.email "382628563@qq.com"
+ssh-keygen -t rsa -C "382628563@qq.com"
+
+git init
+git add .
+git commit -m "add code"
+git remote add origin git@github.com:aBlueMouse/SomeCode.git
+git push -u origin master
+
+git pull
+git add fashionAI/each/.
+git commit -m "add code"
+git push -u origin master
+
+git pull origin master
+git pull origin master --allow-unrelated-histories
+git push -u origin master
