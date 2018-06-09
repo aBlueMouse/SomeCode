@@ -1,0 +1,31 @@
+bash Miniconda2-latest-Linux-x86_64.sh
+source ~/.bashrc
+
+conda create -n lanhao python=2.7
+
+source activate lanhao
+source deactivate
+
+conda remove -n lanhao --all
+
+
+conda search cudnn
+conda install cudnn=6.0.21
+
+conda search cudatoolkit
+
+
+nohup bash hello.sh &
+tail -f nohup.out
+
+
+kill -9 pid
+fuser -v /dev/nvidia*
+
+
+################pytorch
+conda install pytorch=0.3.0 cuda80 -c soumith
+
+################tensorflow
+pip install --ignore-installed --upgrade \
+https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.2.0-cp27-none-linux_x86_64.whl
