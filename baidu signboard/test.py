@@ -29,6 +29,7 @@ print type(anno_tree)
 etree.ElementTree(anno_tree).write("test.xml", pretty_print=True)
 
 anno_tree2 = objectify.parse("test.xml").getroot()
+print type(anno_tree2.getchildren()[2])
 print type(anno_tree2)
 anno_tree_son = E.object(
     E.name('2'),
