@@ -10,6 +10,7 @@ def read_txt(ann_file):
     with open(ann_file, 'rb') as f:
         line = f.readline()
         while line:
+            line = line.split('\n')[0]
             line = line.split(' ')
             anns.append(line)
             line = f.readline()
