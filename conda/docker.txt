@@ -1,0 +1,84 @@
+sudo docker images                  查看镜像
+sudo docker ps -a                   查看容器
+sudo docker rm 8eee800b294f         删除容器
+sudo docker rmi 943880547a6a        删除镜像
+
+首先安装docker，可参考官网教程，这里复制主要步骤：
+https://docs.docker.com/install/linux/docker-ce/ubuntu/
+
+1.docker需要使用aufs或者overlay2存储驱动。Ubuntu14.04需要额外安装。而Ubuntu16.04以上默认存储驱动为overlay2，不需要做改动。安装aufs的指令为：
+sudo apt-get update
+sudo apt-get install \
+	linux-image-extra-$(uname -r) \
+	linux-image-extra-virtual
+
+2.安装存储仓：
+sudo apt-get update
+sudo apt-get install \
+	apt-transport-https \
+	ca-certificates \
+	curl \
+	software-properties-common
+加入官方GPG 秘钥：
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+建立稳定存储仓：
+sudo add-apt-repository \
+	 "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+ 	$(lsb_release -cs) \
+	stable"
+安装
+sudo apt-get update
+sudo apt-get install docker-ce
+
+3.安装NVIDIA-docker
+参照https://github.com/NVIDIA/nvidia-docker
+
+# Add the package repositories
+curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
+  sudo apt-key add -
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | \
+  sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+sudo apt-get update
+
+# Install nvidia-docker2 and reload the Docker daemon configuration
+sudo apt-get install -y nvidia-docker2
+sudo pkill -SIGHUP dockerd
+
+# Test nvidia-smi with the latest official CUDA image
+docker run --runtime=nvidia --rm nvidia/cuda nvidia-smi
+
+4.下载dockerfile：
+https://github.com/facebookresearch/Detectron/blob/master/docker/Dockerfile
+到指定路径下，运行
+docker build -t Detectron .
+
+
+查看目前已经有的镜像：
+sudo docker images
+运行镜像，并将宿主目录/home挂在到docker里面的/home里面：
+sudo nvidia-docker run -v /home:/home
+　　　　　　　　　　　 -it detectrion
+　　　　　　　　　　　 /bin/bash
+
+保存镜像：docker save imageID > filename
+
+加载镜像：docker load  < filename
+
+给新镜像命名：
+docker tag ca1b6b825289 detectron
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
