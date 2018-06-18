@@ -57,9 +57,7 @@ docker build -t Detectron .
 查看目前已经有的镜像：
 sudo docker images
 运行镜像，并将宿主目录/home挂在到docker里面的/home里面：
-sudo nvidia-docker run -v /home:/home
-　　　　　　　　　　　 -it detectrion
-　　　　　　　　　　　 /bin/bash
+sudo nvidia-docker run -it -v /home:/home detectrion /bin/bash
 
 保存镜像：docker save imageID > filename
 
