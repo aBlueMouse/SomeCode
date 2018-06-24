@@ -1,0 +1,3 @@
+screen -S lanhao  //创建
+Ctrl+a d          //挂起
+screen -r lanhao  //重新进入
